@@ -4,21 +4,25 @@ import {connect} from 'react-redux';
 import {AlertConsumer} from '../components/Alert';
 import {Container} from '../components/Container';
 
-const Home = props => {
+const Welcome = props => {
   console.log(props.navigation);
   return (
     <Container>
-      <Text>Home</Text>
+      <Text>Swap the Hop</Text>
+      <Button
+        title="Press me"
+        onPress={() => props.navigation.navigate('Stack')}
+      />
     </Container>
   );
 };
 
-const ConnectedHome = connect(null)(Home);
+const ConnectedWelcome = connect(null)(Welcome);
 
 export default props => (
   <AlertConsumer>
     {context => (
-      <ConnectedHome alertWithType={context.alertWithType} {...props} />
+      <ConnectedWelcome alertWithType={context.alertWithType} {...props} />
     )}
   </AlertConsumer>
 );
