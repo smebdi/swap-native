@@ -8,12 +8,28 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Welcome from '../screens/Welcome';
 import Home from '../screens/Home';
 import Swap from '../screens/Swap';
+import Detail from '../screens/Detail';
 import Search from '../screens/Search';
 import Messages from '../screens/Messages';
 import Profile from '../screens/Profile';
 
 import Styles from '../shared/Styles';
 import color from '../config/colors';
+
+const SearchStack = createStackNavigator({
+  Search: {
+    screen: Search,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Detail: {
+    screen: Detail,
+    navigationOptions: {
+      header: null,
+    },
+  },
+});
 
 const Stack = createBottomTabNavigator(
   {
@@ -36,7 +52,7 @@ const Stack = createBottomTabNavigator(
       },
     },
     Search: {
-      screen: Search,
+      screen: SearchStack,
       navigationOptions: {
         headerTitle: null,
         tabBarIcon: props => (
@@ -64,12 +80,14 @@ const Stack = createBottomTabNavigator(
     },
   },
   {
+    order: ['Home', 'Messages', 'Search', 'Swap', 'Profile'],
     initialRouteName: 'Home',
     backBehavior: 'history',
     tabBarOptions: {
       showIcon: true,
       showLabel: false,
       allowFontScaling: false,
+
       keyboardHidesTabBar: true,
       style: Styles.tabBar,
       activeTintColor: color.primaryColor,

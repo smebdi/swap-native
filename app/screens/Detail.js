@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {AlertConsumer} from '../components/Alert';
-import BeerList from '../components/beerList/beerListContainer';
+import BeerDetail from '../components/beerDetail/beerDetailContainer';
 
 class Search extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class Search extends Component {
   }
 
   render() {
-    return <BeerList props={this.props} />;
+    return <BeerDetail props={this.props} />;
   }
 }
 
