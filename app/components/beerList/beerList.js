@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Platform, FlatList} from 'react-native';
+import {View, Platform, FlatList, Keyboard} from 'react-native';
 import {Container} from '../Container';
 import {Button, ListItem, SearchBar} from 'react-native-elements';
 import colors from '../../config/colors';
@@ -7,29 +7,28 @@ import colors from '../../config/colors';
 export default class BeerList extends Component {
   constructor(props) {
     super(props);
-    props.clearBeerList();
-    props.clearBeerDetail();
   }
 
   state = {
     search: '',
-    data: this.props.beer.beerList,
+    data: [],
     loading: false,
   };
 
   componentDidMount() {
     console.log('beerlistprops', this.props);
-    return true;
   }
 
   updateSearch = search => {
-    this.setState({search});
+    search ? this.setState({search}) : this.setState({search, data: []});
   };
 
   executeSearch = () => {
     let {search} = this.state;
     const {getBeerListFromQuery} = this.props;
+
     this.setState({loading: true});
+    Keyboard.dismiss();
     getBeerListFromQuery(search).then(data => {
       this.setState({
         loading: false,
@@ -87,6 +86,7 @@ export default class BeerList extends Component {
     const {data, search, loading} = this.state;
     return (
       <FlatList
+        keyboardShouldPersistTaps="always"
         keyExtractor={this.keyExtractor}
         data={data}
         renderItem={this.renderItem}
