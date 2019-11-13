@@ -1,7 +1,7 @@
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createStackNavigator} from 'react-navigation-stack';
+import {createStackNavigator, HeaderBackButton} from 'react-navigation-stack';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -16,26 +16,34 @@ import Profile from '../screens/Profile';
 import Styles from '../shared/Styles';
 import color from '../config/colors';
 
-const SearchStack = createStackNavigator({
-  Search: {
-    screen: Search,
-    navigationOptions: {
-      header: null,
+const SearchStack = createStackNavigator(
+  {
+    Search: {
+      screen: Search,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Detail: {
+      screen: Detail,
+      navigationOptions: {
+        header: null,
+      },
     },
   },
-  Detail: {
-    screen: Detail,
-    navigationOptions: {
-      header: null,
-    },
+  {
+    cardShadowEnabled: true,
+    cardOverlayEndabled: true,
+    transparentCard: true,
   },
-});
+);
 
 const Stack = createBottomTabNavigator(
   {
     Home: {
       screen: Home,
       navigationOptions: {
+        headerLeft: null,
         headerTitle: 'Home',
         tabBarIcon: props => (
           <Icon name="home" size={25} color={props.tintColor} />
@@ -45,6 +53,7 @@ const Stack = createBottomTabNavigator(
     Messages: {
       screen: Messages,
       navigationOptions: {
+        headerLeft: null,
         headerTitle: 'Messages',
         tabBarIcon: props => (
           <Icon name="comments" size={25} color={props.tintColor} />
@@ -54,6 +63,7 @@ const Stack = createBottomTabNavigator(
     Search: {
       screen: SearchStack,
       navigationOptions: {
+        headerLeft: null,
         headerTitle: null,
         tabBarIcon: props => (
           <Icon name="search" size={25} color={props.tintColor} />
@@ -63,6 +73,7 @@ const Stack = createBottomTabNavigator(
     Swap: {
       screen: Swap,
       navigationOptions: {
+        headerLeft: null,
         headerTitle: 'Swap',
         tabBarIcon: props => (
           <Icon name="beer" size={25} color={props.tintColor} />
@@ -72,6 +83,7 @@ const Stack = createBottomTabNavigator(
     Profile: {
       screen: Profile,
       navigationOptions: {
+        headerLeft: null,
         headerTitle: 'Profile',
         tabBarIcon: props => (
           <Icon name="user" size={25} color={props.tintColor} />
@@ -87,7 +99,6 @@ const Stack = createBottomTabNavigator(
       showIcon: true,
       showLabel: false,
       allowFontScaling: false,
-
       keyboardHidesTabBar: true,
       style: Styles.tabBar,
       activeTintColor: color.primaryColor,
@@ -101,6 +112,7 @@ export default createAppContainer(
       Welcome: {
         screen: Welcome,
         navigationOptions: ({navigation}) => ({
+          headerLeft: null,
           headerTitle: 'Welcome',
           headerStyle: Styles.header,
           headerTitleStyle: {
@@ -122,6 +134,7 @@ export default createAppContainer(
       defaultNavigationOptions: ({navigation}) => ({
         headerTitle: 'Swap the Hop',
         headerBackTitle: null,
+        backBehavior: 'history',
         headerStyle: Styles.header,
         headerTitleStyle: {
           color: color.primaryColor,
@@ -129,11 +142,16 @@ export default createAppContainer(
         headerBackTitleStyle: {
           color: color.primaryColorAccent,
         },
-        headerLeft: null,
+        headerLeft: (
+          <HeaderBackButton
+            tintColor={color.primaryColor}
+            onPress={() => {
+              navigation.goBack(null);
+            }}
+          />
+        ),
         headerTintColor: color.primaryColorAccent,
       }),
     },
   ),
 );
-
-// initialRouteName

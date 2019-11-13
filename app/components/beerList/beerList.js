@@ -3,6 +3,7 @@ import {View, Platform, FlatList, Keyboard} from 'react-native';
 import {Container} from '../Container';
 import {Button, ListItem, SearchBar} from 'react-native-elements';
 import colors from '../../config/colors';
+import LoadingIndicator from '../Loading/loading';
 
 export default class BeerList extends Component {
   constructor(props) {
@@ -84,8 +85,11 @@ export default class BeerList extends Component {
 
   render() {
     const {data, search, loading} = this.state;
-    return (
+    return loading ? (
+      <LoadingIndicator />
+    ) : (
       <FlatList
+        backgroundColor={colors.backgroundColor}
         keyboardShouldPersistTaps="always"
         keyExtractor={this.keyExtractor}
         data={data}

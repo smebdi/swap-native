@@ -6,32 +6,24 @@ import {Container} from '../Container';
 import colors from '../../config/colors';
 const {height, width} = Dimensions.get('window');
 
-export default class BeerDetail extends Component {
+const defaultImage =
+  'https://www.ibts.org/wp-content/uploads/2017/08/iStock-476085198-300x300.jpg';
+
+export default class profileDetail extends Component {
   constructor(props) {
     super(props);
   }
 
   state = {
-    beer: this.props.beer.beer.beer,
-    brewery: this.props.beer.beer.brewery,
+    profile: this.props.profile || {},
     loading: true,
-    imgHeight: 100,
-    imgWidth: 100,
-    headerHeight: 225,
+    imgHeight: 125,
+    imgWidth: 125,
+    headerHeight: 150,
     adjustedHeight: false,
   };
 
-  componentDidMount() {
-    console.log('thisbeer', this.state.beer);
-    console.log('thisbrewery', this.state.brewery);
-
-    Image.getSize(
-      this.props.beer.beer.beer.beer_label,
-      (imgHeight, imgWidth) => {
-        this.setState({imgHeight, imgWidth, loading: true});
-      },
-    );
-  }
+  componentDidMount() {}
 
   getDimensionsOfText = layout => {
     if (!this.state.adjustedHeight) {
@@ -42,11 +34,11 @@ export default class BeerDetail extends Component {
     }
   };
 
-  renderImage = (imgHeight, imgWidth, uri) => {
+  renderImage = (imgHeight, imgWidth, uri = defaultImage) => {
     return (
       <View
         style={[
-          {height: imgHeight + 25, width: imgWidth + 25},
+          {height: imgHeight, width: imgWidth},
           style.contentImage,
           style.shadow,
         ]}>
@@ -55,20 +47,15 @@ export default class BeerDetail extends Component {
     );
   };
 
-  renderHeader = (beer, brewery) => {
+  renderHeader = (headerText, subHeaderText) => {
     return (
       <View>
-        <Text
-          h4
-          style={style.header}
-          onLayout={event => {
-            this.getDimensionsOfText(event.nativeEvent.layout);
-          }}>
-          {beer.beer_name}
+        <Text h4 style={style.header}>
+          {headerText}
         </Text>
-        <Text style={[style.header, style.subHeader]}>
-          {brewery.brewery_name}
-        </Text>
+        {subHeaderText ? (
+          <Text style={[style.header, style.subHeader]}>{subHeaderText}</Text>
+        ) : null}
       </View>
     );
   };
@@ -97,31 +84,33 @@ export default class BeerDetail extends Component {
   };
 
   render() {
-    const {
-      beer,
-      brewery,
-      imgHeight,
-      imgWidth,
-      headerHeight,
-      loading,
-    } = this.state;
+    const {profile, imgHeight, imgWidth, headerHeight, loading} = this.state;
 
     return loading ? (
       <Container style={{justifyContent: 'flex-start'}}>
-        {this.renderImage(imgHeight, imgWidth, beer.beer_label)}
+        {this.renderImage(imgHeight, imgWidth, profile.profile_label)}
+
         <View
           style={[
-            {height: headerHeight},
             style.contentHeader,
             style.shadow,
             style.rounded,
+            {height: headerHeight},
           ]}>
-          {this.renderHeader(beer, brewery)}
-          {this.renderContentRow('ABV', beer.beer_abv, '%')}
-          {this.renderContentRow('IBU', beer.beer_ibu)}
-          {this.renderContentRow('Style', beer.beer_style)}
+          {this.renderHeader(profile.username, profile.fullName)}
         </View>
-        {this.renderDescription(width - 60, beer.beer_description)}
+
+        <View
+          style={[
+            style.contentHeader,
+            style.shadow,
+            style.rounded,
+            {height: headerHeight, justifyContent: 'flex-start'},
+          ]}>
+          {this.renderHeader('Breweries', profile.fullName)}
+        </View>
+
+        {this.renderDescription(width - 60, profile.profile_description)}
       </Container>
     ) : null;
   }
@@ -152,6 +141,7 @@ const style = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingBottom: 20,
+    marginVertical: 5,
   },
   contentTextRow: {
     flexDirection: 'row',
