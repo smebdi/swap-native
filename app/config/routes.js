@@ -112,16 +112,7 @@ export default createAppContainer(
       Welcome: {
         screen: Welcome,
         navigationOptions: ({navigation}) => ({
-          headerLeft: null,
-          headerTitle: 'Welcome',
-          headerStyle: Styles.header,
-          headerTitleStyle: {
-            color: color.primaryColor,
-          },
-          headerBackTitleStyle: {
-            color: color.primaryColorAccent,
-          },
-          headerTintColor: color.primaryColorAccent,
+          header: null,
         }),
       },
       Stack: {

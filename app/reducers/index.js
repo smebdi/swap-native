@@ -3,6 +3,7 @@ import brew from './brew';
 import theme from './theme';
 import network from './network';
 import config from './config';
+import token from './token';
 
 export default {
   beer,
@@ -10,4 +11,5 @@ export default {
   theme,
   network,
   config,
+  token,
 };

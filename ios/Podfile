@@ -1,4 +1,5 @@
-platform :ios, '9.0'
+ENV['SWIFT_VERSION'] = '4.2'
+platform :ios, '11.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 target 'swap' do
@@ -48,6 +49,7 @@ target 'swap' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RCTRestart', :path => '../node_modules/react-native-restart'
+
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
 
 end

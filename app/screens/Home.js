@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button} from 'react-native';
+import {Text, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {AlertConsumer} from '../components/Alert';
 import {Container} from '../components/Container';
@@ -8,6 +8,7 @@ const Home = props => {
   console.log(props.navigation);
   return (
     <Container>
+      <StatusBar barStyle={'dark-content'} />
       <Text>Home</Text>
     </Container>
   );

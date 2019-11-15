@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {View, Image, StyleSheet, Dimensions, ScrollView} from 'react-native';
-import {Text} from 'react-native-elements';
+import {Text, Button} from 'react-native-elements';
 import {Container} from '../Container';
 import colors from '../../config/colors';
+import Auth from '../Auth';
 const {height, width} = Dimensions.get('window');
 
 const defaultImage =
@@ -15,15 +16,19 @@ export default class profileDetail extends Component {
   }
 
   state = {
-    profile: this.props.profile || {},
+    profile: this.props.profile,
     loading: true,
     imgHeight: 125,
     imgWidth: 125,
     headerHeight: 150,
     adjustedHeight: false,
+    modalVisible: false,
   };
 
-  componentDidMount() {}
+  setModalVisible = visible => {
+    console.log(visible);
+    this.setState({modalVisible: visible});
+  };
 
   getDimensionsOfText = layout => {
     if (!this.state.adjustedHeight) {
@@ -84,12 +89,36 @@ export default class profileDetail extends Component {
   };
 
   render() {
-    const {profile, imgHeight, imgWidth, headerHeight, loading} = this.state;
+    const {
+      profile,
+      imgHeight,
+      imgWidth,
+      headerHeight,
+      modalVisible,
+    } = this.state;
 
-    return loading ? (
+    return !profile ? (
+      <Container>
+        <Auth visible={modalVisible} setModalVisible={this.setModalVisible} />
+        <Text>You must be logged in to access this page</Text>
+        <Button
+          containerStyle={{marginVertical: 20}}
+          buttonStyle={{
+            width: 270,
+            backgroundColor: colors.secondaryColorAccent,
+          }}
+          titleStyle={{
+            color: colors.black,
+            fontWeight: 'bold',
+          }}
+          raised
+          title="Sign In"
+          onPress={() => this.setState({modalVisible: true})}
+        />
+      </Container>
+    ) : (
       <Container style={{justifyContent: 'flex-start'}}>
         {this.renderImage(imgHeight, imgWidth, profile.profile_label)}
-
         <View
           style={[
             style.contentHeader,
@@ -99,7 +128,6 @@ export default class profileDetail extends Component {
           ]}>
           {this.renderHeader(profile.username, profile.fullName)}
         </View>
-
         <View
           style={[
             style.contentHeader,
@@ -108,11 +136,11 @@ export default class profileDetail extends Component {
             {height: headerHeight, justifyContent: 'flex-start'},
           ]}>
           {this.renderHeader('Breweries', profile.fullName)}
+          {this.renderContentRow('Breweries', profile.fullName)}
         </View>
-
         {this.renderDescription(width - 60, profile.profile_description)}
       </Container>
-    ) : null;
+    );
   }
 }
 

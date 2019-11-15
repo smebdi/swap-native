@@ -11,7 +11,10 @@ export default class LoadingIndicator extends Component {
   render() {
     return (
       <Container>
-        <ActivityIndicator size={'large'} color={color.primaryColor} />
+        <ActivityIndicator
+          size={'large'}
+          color={this.props.color || color.primaryColor}
+        />
       </Container>
     );
   }
