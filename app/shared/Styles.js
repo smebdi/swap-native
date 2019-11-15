@@ -10,9 +10,11 @@ export default StyleSheet.create({
   header: {
     backgroundColor: colors.secondaryColor,
     height: HEADER_HEIGHT,
+    borderBottomWidth: 0,
+    borderColor: null,
   },
-  tabbar: {
-    height: HEADER_HEIGHT,
+  tabBar: {
+    backgroundColor: colors.secondaryColorAccent,
   },
   dropShadow: {
     shadowColor: 'black',
@@ -22,6 +24,16 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 2,
+    elevation: 5,
+  },
+  shadow: {
+    shadowColor: colors.primaryColorAccent,
+    shadowOffset: {
+      width: 0,
+      height: -0.5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
 });

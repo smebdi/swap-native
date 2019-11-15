@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {View, Platform, FlatList, Keyboard} from 'react-native';
+import {View, Platform, FlatList, Keyboard, StyleSheet} from 'react-native';
 import {Container} from '../Container';
 import {Button, ListItem, SearchBar} from 'react-native-elements';
 import colors from '../../config/colors';
 import LoadingIndicator from '../Loading/loading';
+import styles from '../Alert/styles';
 
 export default class BeerList extends Component {
   constructor(props) {
@@ -52,32 +53,44 @@ export default class BeerList extends Component {
       subtitle={item.brewery.brewery_name}
       leftAvatar={{source: {uri: item.beer.beer_label}}}
       onPress={() => this.handleBeerPress(item)}
-      bottomDivider
+      topDivider
       chevron
       isVisible={true}
+      containerStyle={{backgroundColor: colors.secondaryColor}}
     />
   );
+
+  renderSearchBar = search => {
+    return (
+      <SearchBar
+        ref={searchbar => (this.search = searchbar)}
+        value={search}
+        placeholder="Find beer or breweries"
+        onChangeText={this.updateSearch}
+        onBlur={() => 'blur'}
+        cancelButtonProps={{buttonStyle: null}}
+        cancelButtonTitle={''}
+        platform={Platform.OS === 'ios' ? 'ios' : 'android'}
+        inputContainerStyle={{backgroundColor: colors.backgroundColor}}
+        containerStyle={style.searchBarContainer}
+      />
+    );
+  };
 
   renderHeader = (search, data, loading) => {
     return (
       <View>
-        <Container>
-          <SearchBar
-            ref={searchbar => (this.search = searchbar)}
-            value={search}
-            placeholder="Find beer or breweries"
-            onChangeText={this.updateSearch}
-            onBlur={() => 'blur'}
-            platform={Platform.OS === 'ios' ? 'ios' : 'android'}
-            inputContainerStyle={{backgroundColor: colors.backgroundColor}}
-          />
-        </Container>
+        <Container>{this.renderSearchBar(search)}</Container>
         {search && !data.length && !loading ? (
-          <Button
-            title="Search"
-            type="clear"
-            onPress={() => this.executeSearch()}
-          />
+          <Container>
+            <Button
+              buttonStyle={style.buttonStyle}
+              titleStyle={style.buttonTitleStyle}
+              title="Search"
+              raised
+              onPress={() => this.executeSearch()}
+            />
+          </Container>
         ) : null}
       </View>
     );
@@ -86,17 +99,36 @@ export default class BeerList extends Component {
   render() {
     const {data, search, loading} = this.state;
     return loading ? (
-      <LoadingIndicator />
+      <Container style={{justifyContent: 'flex-start'}}>
+        {this.renderSearchBar(search)}
+        <LoadingIndicator />
+      </Container>
     ) : (
       <FlatList
-        backgroundColor={colors.backgroundColor}
+        backgroundColor={colors.secondaryColor}
         keyboardShouldPersistTaps="always"
         keyExtractor={this.keyExtractor}
         data={data}
         renderItem={this.renderItem}
         ListHeaderComponent={this.renderHeader(search, data, loading)}
         onEndReachedThreshold={0.5}
+        stickyHeaderIndices={[0]}
       />
     );
   }
 }
+
+const style = StyleSheet.create({
+  buttonStyle: {
+    width: 250,
+    backgroundColor: colors.secondaryColorAccent,
+  },
+  buttonTitleStyle: {
+    color: colors.black,
+    fontWeight: 'bold',
+  },
+  searchBarContainer: {
+    backgroundColor: colors.secondaryColor,
+    height: 50,
+  },
+});

@@ -46,7 +46,11 @@ const Stack = createBottomTabNavigator(
         headerLeft: null,
         headerTitle: 'Home',
         tabBarIcon: props => (
-          <Icon name="home" size={25} color={props.tintColor} />
+          <Icon
+            name="home"
+            size={props.focused ? 28 : 25}
+            color={props.tintColor}
+          />
         ),
       },
     },
@@ -56,7 +60,11 @@ const Stack = createBottomTabNavigator(
         headerLeft: null,
         headerTitle: 'Messages',
         tabBarIcon: props => (
-          <Icon name="comments" size={25} color={props.tintColor} />
+          <Icon
+            name="comments"
+            size={props.focused ? 28 : 25}
+            color={props.tintColor}
+          />
         ),
       },
     },
@@ -66,7 +74,11 @@ const Stack = createBottomTabNavigator(
         headerLeft: null,
         headerTitle: null,
         tabBarIcon: props => (
-          <Icon name="search" size={25} color={props.tintColor} />
+          <Icon
+            name="search"
+            size={props.focused ? 28 : 25}
+            color={props.tintColor}
+          />
         ),
       },
     },
@@ -76,7 +88,11 @@ const Stack = createBottomTabNavigator(
         headerLeft: null,
         headerTitle: 'Swap',
         tabBarIcon: props => (
-          <Icon name="beer" size={25} color={props.tintColor} />
+          <Icon
+            name="beer"
+            size={props.focused ? 28 : 25}
+            color={props.tintColor}
+          />
         ),
       },
     },
@@ -86,7 +102,11 @@ const Stack = createBottomTabNavigator(
         headerLeft: null,
         headerTitle: 'Profile',
         tabBarIcon: props => (
-          <Icon name="user" size={25} color={props.tintColor} />
+          <Icon
+            name="user"
+            size={props.focused ? 28 : 25}
+            color={props.tintColor}
+          />
         ),
       },
     },
@@ -100,8 +120,9 @@ const Stack = createBottomTabNavigator(
       showLabel: false,
       allowFontScaling: false,
       keyboardHidesTabBar: true,
-      style: Styles.tabBar,
-      activeTintColor: color.primaryColor,
+      style: [Styles.tabBar, Styles.shadow],
+      activeTintColor: color.black,
+      inactiveTintColor: color.black + '65',
     },
   },
 );
@@ -109,12 +130,12 @@ const Stack = createBottomTabNavigator(
 export default createAppContainer(
   createStackNavigator(
     {
-      Welcome: {
-        screen: Welcome,
-        navigationOptions: ({navigation}) => ({
-          header: null,
-        }),
-      },
+      // Welcome: {
+      //   screen: Welcome,
+      //   navigationOptions: ({navigation}) => ({
+      //     header: null,
+      //   }),
+      // },
       Stack: {
         screen: Stack,
       },

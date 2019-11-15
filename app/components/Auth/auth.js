@@ -134,7 +134,7 @@ export default class Profile extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={style.footerButton}
-          onPress={console.log('password')}>
+          onPress={() => console.log('password')}>
           <Text>Forgot password?</Text>
         </TouchableOpacity>
       </View>
